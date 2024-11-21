@@ -11,7 +11,10 @@ public class ActividadEconomicaController {
     }
 
     public boolean registrarActividadEconomica(String nombreActividad) {
-        ActividadEconomica actividad = new ActividadEconomica(0, nombreActividad); // Ajustado para usar dos parámetros
+        ActividadEconomica actividad = new ActividadEconomica.Builder()
+                .setId(0) // o cualquier valor inicial apropiado
+                .setNombreActividad(nombreActividad)
+                .build();
         return actividadEconomicaModel.registrarActividadEconomica(actividad);
     }
 

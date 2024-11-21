@@ -11,7 +11,12 @@ public class UsuarioController {
     }
 
     public boolean registrarUsuario(int id, String nombreUsuario, String contraseña, String rol) {
-        Usuario usuario = new Usuario(id, nombreUsuario, contraseña, rol);
+        Usuario usuario = new Usuario.Builder()
+                .setId(id)
+                .setNombreUsuario(nombreUsuario)
+                .setContraseña(contraseña)
+                .setRol(rol)
+                .build();
         return usuarioModel.registrarUsuario(usuario);
     }
 }

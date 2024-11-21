@@ -36,7 +36,10 @@ public class ActividadEconomicaModel {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new ActividadEconomica(rs.getInt("id"), rs.getString("nombre_actividad"));
+                return new ActividadEconomica.Builder()
+                        .setId(rs.getInt("id"))
+                        .setNombreActividad(rs.getString("nombre_actividad"))
+                        .build();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,7 +56,10 @@ public class ActividadEconomicaModel {
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                ActividadEconomica actividad = new ActividadEconomica(rs.getInt("id"), rs.getString("nombre_actividad"));
+                ActividadEconomica actividad = new ActividadEconomica.Builder()
+                        .setId(rs.getInt("id"))
+                        .setNombreActividad(rs.getString("nombre_actividad"))
+                        .build();
                 actividades.add(actividad);
             }
         } catch (SQLException e) {
@@ -62,7 +68,6 @@ public class ActividadEconomicaModel {
         return actividades;
     }
 
-    // NUEVO MÉTODO: Obtener actividad económica por nombre
     public ActividadEconomica obtenerActividadEconomicaPorNombre(String nombre) {
         String sql = "SELECT * FROM ActividadesEconomicas WHERE nombre_actividad = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -71,7 +76,10 @@ public class ActividadEconomicaModel {
             pstmt.setString(1, nombre);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new ActividadEconomica(rs.getInt("id"), rs.getString("nombre_actividad"));
+                return new ActividadEconomica.Builder()
+                        .setId(rs.getInt("id"))
+                        .setNombreActividad(rs.getString("nombre_actividad"))
+                        .build();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,7 +87,6 @@ public class ActividadEconomicaModel {
         return null;
     }
 
-    // AJUSTADO: Método actualizar actividad económica
     public boolean actualizarActividadEconomica(ActividadEconomica actividad) {
         String sql = "UPDATE ActividadesEconomicas SET nombre_actividad = ? WHERE id = ?";
 
@@ -97,7 +104,6 @@ public class ActividadEconomicaModel {
         }
     }
 
-    // NUEVO MÉTODO: Eliminar actividad económica por nombre
     public boolean eliminarActividadEconomica(ActividadEconomica actividad) {
         String sql = "DELETE FROM ActividadesEconomicas WHERE id = ?";
 

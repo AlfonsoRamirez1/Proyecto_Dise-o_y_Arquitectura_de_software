@@ -38,7 +38,12 @@ public class ReporteModel {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new Reporte(rs.getInt("id"), rs.getString("tipo_reporte"), rs.getString("fecha_generacion"), rs.getString("datos"));
+                return new Reporte.Builder()
+                        .setId(rs.getInt("id"))
+                        .setTipoReporte(rs.getString("tipo_reporte"))
+                        .setFechaGeneracion(rs.getString("fecha_generacion"))
+                        .setDatos(rs.getString("datos"))
+                        .build();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,7 +60,12 @@ public class ReporteModel {
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                Reporte reporte = new Reporte(rs.getInt("id"), rs.getString("tipo_reporte"), rs.getString("fecha_generacion"), rs.getString("datos"));
+                Reporte reporte = new Reporte.Builder()
+                        .setId(rs.getInt("id"))
+                        .setTipoReporte(rs.getString("tipo_reporte"))
+                        .setFechaGeneracion(rs.getString("fecha_generacion"))
+                        .setDatos(rs.getString("datos"))
+                        .build();
                 reportes.add(reporte);
             }
         } catch (SQLException e) {

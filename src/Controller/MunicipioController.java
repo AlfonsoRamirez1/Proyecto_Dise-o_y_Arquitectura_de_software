@@ -11,7 +11,10 @@ public class MunicipioController {
     }
 
     public boolean registrarMunicipio(String nombre) {
-        Municipio municipio = new Municipio(0, nombre); // Ajustado para usar solo dos parámetros
+        Municipio municipio = new Municipio.Builder()
+                .setId(0) // o cualquier valor inicial apropiado
+                .setNombre(nombre)
+                .build();
         return municipioModel.registrarMunicipio(municipio);
     }
 

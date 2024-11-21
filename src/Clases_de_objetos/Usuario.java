@@ -6,24 +6,50 @@ public class Usuario {
     private String contraseña;
     private String rol;
 
-    // Constructor
-    public Usuario(int id, String nombreUsuario, String contraseña, String rol) {
-        this.id = id;
-        this.nombreUsuario = nombreUsuario;
-        this.contraseña = contraseña;
-        this.rol = rol;
+    // Constructor privado para el Builder
+    private Usuario(Builder builder) {
+        this.id = builder.id;
+        this.nombreUsuario = builder.nombreUsuario;
+        this.contraseña = builder.contraseña;
+        this.rol = builder.rol;
     }
 
-    // Getters y Setters
+    // Getters
     public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
     public String getNombreUsuario() { return nombreUsuario; }
-    public void setNombreUsuario(String nombreUsuario) { this.nombreUsuario = nombreUsuario; }
-
     public String getContraseña() { return contraseña; }
-    public void setContraseña(String contraseña) { this.contraseña = contraseña; }
-
     public String getRol() { return rol; }
-    public void setRol(String rol) { this.rol = rol; }
+
+    // Clase estática interna Builder
+    public static class Builder {
+        private int id;
+        private String nombreUsuario;
+        private String contraseña;
+        private String rol;
+
+        // Métodos Builder
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setNombreUsuario(String nombreUsuario) {
+            this.nombreUsuario = nombreUsuario;
+            return this;
+        }
+
+        public Builder setContraseña(String contraseña) {
+            this.contraseña = contraseña;
+            return this;
+        }
+
+        public Builder setRol(String rol) {
+            this.rol = rol;
+            return this;
+        }
+
+        public Usuario build() {
+            return new Usuario(this);
+        }
+    }
 }

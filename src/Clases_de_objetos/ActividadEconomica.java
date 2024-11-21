@@ -4,16 +4,34 @@ public class ActividadEconomica {
     private int id;
     private String nombreActividad;
 
-    // Constructor
-    public ActividadEconomica(int id, String nombreActividad) {
-        this.id = id;
-        this.nombreActividad = nombreActividad;
+    // Constructor privado para el Builder
+    private ActividadEconomica(Builder builder) {
+        this.id = builder.id;
+        this.nombreActividad = builder.nombreActividad;
     }
 
-    // Getters y Setters
+    // Getters
     public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
     public String getNombreActividad() { return nombreActividad; }
-    public void setNombreActividad(String nombreActividad) { this.nombreActividad = nombreActividad; }
+
+    // Clase estática interna Builder
+    public static class Builder {
+        private int id;
+        private String nombreActividad;
+
+        // Métodos Builder
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setNombreActividad(String nombreActividad) {
+            this.nombreActividad = nombreActividad;
+            return this;
+        }
+
+        public ActividadEconomica build() {
+            return new ActividadEconomica(this);
+        }
+    }
 }

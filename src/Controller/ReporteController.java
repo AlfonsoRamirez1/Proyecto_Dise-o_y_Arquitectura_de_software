@@ -11,7 +11,11 @@ public class ReporteController {
     }
 
     public boolean registrarReporte(String descripcion, String fecha, int municipioId) {
-        Reporte reporte = new Reporte(0, descripcion, fecha, null); // El objeto Municipio debe ser adaptado
+        Reporte reporte = new Reporte.Builder()
+                .setId(0) // o cualquier valor inicial apropiado
+                .setTipoReporte(descripcion)
+                .setFechaGeneracion(fecha)
+                .build();
         return reporteModel.registrarReporte(reporte);
     }
 

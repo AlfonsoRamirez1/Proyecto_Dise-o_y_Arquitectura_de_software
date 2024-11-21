@@ -4,16 +4,34 @@ public class Municipio {
     private int id;
     private String nombre;
 
-    // Constructor
-    public Municipio(int id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
+    // Constructor privado para el Builder
+    private Municipio(Builder builder) {
+        this.id = builder.id;
+        this.nombre = builder.nombre;
     }
 
-    // Getters y Setters
+    // Getters
     public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
     public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    // Clase estática interna Builder
+    public static class Builder {
+        private int id;
+        private String nombre;
+
+        // Métodos Builder
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setNombre(String nombre) {
+            this.nombre = nombre;
+            return this;
+        }
+
+        public Municipio build() {
+            return new Municipio(this);
+        }
+    }
 }

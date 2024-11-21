@@ -36,7 +36,10 @@ public class MunicipioModel {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new Municipio(rs.getInt("id"), rs.getString("nombre"));
+                return new Municipio.Builder()
+                        .setId(rs.getInt("id"))
+                        .setNombre(rs.getString("nombre"))
+                        .build();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,45 +56,15 @@ public class MunicipioModel {
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                Municipio municipio = new Municipio(rs.getInt("id"), rs.getString("nombre"));
+                Municipio municipio = new Municipio.Builder()
+                        .setId(rs.getInt("id"))
+                        .setNombre(rs.getString("nombre"))
+                        .build();
                 municipios.add(municipio);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return municipios;
-    }
-
-    public boolean actualizarMunicipio(Municipio municipio) {
-        String sql = "UPDATE Municipios SET nombre = ? WHERE id = ?";
-
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, municipio.getNombre());
-            //pstmt.setInt(2, municipio.getId());
-            pstmt.executeUpdate();
-            return true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean eliminarMunicipio(int id) {
-        String sql = "DELETE FROM Municipios WHERE id = ?";
-
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-            return true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 }
