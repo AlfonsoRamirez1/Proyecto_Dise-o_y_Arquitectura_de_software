@@ -59,8 +59,8 @@ public class ReporteState implements FormState {
         String fecha = "2023-10-25"; // Se debe obtener dinámicamente
         int municipioId = 0; // Debe enlazarse a un municipio
 
-        boolean registrado = adminWindow.reporteController.registrarReporte(descripcion, fecha, municipioId);
-        adminWindow.mostrarMensaje(registrado, "Reporte");
+      //  boolean registrado = adminWindow.reporteController.registrarReporte(descripcion, fecha, municipioId);
+        //adminWindow.mostrarMensaje(registrado, "Reporte");
     }
 
     private void openReportesWindow() {

@@ -56,8 +56,8 @@ public class LocalidadState implements FormState {
     @Override
     public void register(AdminWindow adminWindow) {
         String nombreLocalidad = adminWindow.localidadNombreField.getText();
-        boolean registrado = adminWindow.localidadController.registrarLocalidad(nombreLocalidad);
-        adminWindow.mostrarMensaje(registrado, "Localidad");
+      //  boolean registrado = adminWindow.localidadController.registrarLocalidad(nombreLocalidad);
+       // adminWindow.mostrarMensaje(registrado, "Localidad");
     }
 
     private void openLocalidadesWindow() {
