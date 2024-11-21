@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActividadEconomicaModel {
-    private static final String DB_URL = "jdbc:sqlite:G:/Mi unidad/DISEÑO Y ARQUITECTURA DE SOFTWARE/Proyecto Parcial 2/src/Database/Proyecto parcial 2 Diseño y arquitectura de software.db"
-            ;
+    private static final String DB_URL = "jdbc:sqlite:G:/Mi unidad/DISEÑO Y ARQUITECTURA DE SOFTWARE/Proyecto Parcial 2/src/Database/Proyecto parcial 2 Diseño y arquitectura de software.db";
 
     public boolean registrarActividadEconomica(ActividadEconomica actividad) {
         String sql = "INSERT INTO ActividadesEconomicas(nombre_actividad) VALUES (?)";
@@ -63,6 +62,24 @@ public class ActividadEconomicaModel {
         return actividades;
     }
 
+    // NUEVO MÉTODO: Obtener actividad económica por nombre
+    public ActividadEconomica obtenerActividadEconomicaPorNombre(String nombre) {
+        String sql = "SELECT * FROM ActividadesEconomicas WHERE nombre_actividad = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, nombre);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new ActividadEconomica(rs.getInt("id"), rs.getString("nombre_actividad"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // AJUSTADO: Método actualizar actividad económica
     public boolean actualizarActividadEconomica(ActividadEconomica actividad) {
         String sql = "UPDATE ActividadesEconomicas SET nombre_actividad = ? WHERE id = ?";
 
@@ -70,7 +87,7 @@ public class ActividadEconomicaModel {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, actividad.getNombreActividad());
-            //pstmt.setInt(2, actividad.getId());
+            pstmt.setInt(2, actividad.getId());
             pstmt.executeUpdate();
             return true;
 
@@ -80,13 +97,14 @@ public class ActividadEconomicaModel {
         }
     }
 
-    public boolean eliminarActividadEconomica(int id) {
+    // NUEVO MÉTODO: Eliminar actividad económica por nombre
+    public boolean eliminarActividadEconomica(ActividadEconomica actividad) {
         String sql = "DELETE FROM ActividadesEconomicas WHERE id = ?";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, id);
+            pstmt.setInt(1, actividad.getId());
             pstmt.executeUpdate();
             return true;
 

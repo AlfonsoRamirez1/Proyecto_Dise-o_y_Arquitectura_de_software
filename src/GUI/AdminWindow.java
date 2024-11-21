@@ -29,7 +29,6 @@ public class AdminWindow extends JFrame {
 
     // Estado de la ventana
     private FormState currentState;
-    private JComboBox<String> entitySelector;
     private Map<String, FormState> stateMap;
 
     public AdminWindow() {
@@ -47,16 +46,48 @@ public class AdminWindow extends JFrame {
         tipoViviendaController = new TipoViviendaController();
         reporteController = new ReporteController();
 
-        // Configurar selector de entidad
-        entitySelector = new JComboBox<>(new String[]{
-                "Seleccione una opción", "Actividad Económica", "Habitante",
-                "Vivienda", "Localidad", "Municipio", "Tipo de Vivienda", "Reporte"
-        });
-        entitySelector.addActionListener(e -> changeState((String) entitySelector.getSelectedItem()));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0; gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        add(entitySelector, gbc);
+        // Crear la barra de menú
+        JMenuBar menuBar = new JMenuBar();
+
+        // Crear el menú principal
+        JMenu menu = new JMenu("Opciones");
+
+        // Crear los ítems del menú
+        JMenuItem actividadEconomicaItem = new JMenuItem("Actividad Económica");
+        actividadEconomicaItem.addActionListener(e -> changeState("Actividad Económica"));
+
+        JMenuItem habitanteItem = new JMenuItem("Habitante");
+        habitanteItem.addActionListener(e -> changeState("Habitante"));
+
+        JMenuItem viviendaItem = new JMenuItem("Vivienda");
+        viviendaItem.addActionListener(e -> changeState("Vivienda"));
+
+        JMenuItem localidadItem = new JMenuItem("Localidad");
+        localidadItem.addActionListener(e -> changeState("Localidad"));
+
+        JMenuItem municipioItem = new JMenuItem("Municipio");
+        municipioItem.addActionListener(e -> changeState("Municipio"));
+
+        JMenuItem tipoViviendaItem = new JMenuItem("Tipo de Vivienda");
+        tipoViviendaItem.addActionListener(e -> changeState("Tipo de Vivienda"));
+
+        JMenuItem reporteItem = new JMenuItem("Reporte");
+        reporteItem.addActionListener(e -> changeState("Reporte"));
+
+        // Añadir los ítems al menú
+        menu.add(actividadEconomicaItem);
+        menu.add(habitanteItem);
+        menu.add(viviendaItem);
+        menu.add(localidadItem);
+        menu.add(municipioItem);
+        menu.add(tipoViviendaItem);
+        menu.add(reporteItem);
+
+        // Añadir el menú a la barra de menú
+        menuBar.add(menu);
+
+        // Añadir la barra de menú al frame
+        setJMenuBar(menuBar);
 
         // Inicializar mapa de estados
         stateMap = new HashMap<>();
@@ -69,7 +100,8 @@ public class AdminWindow extends JFrame {
         stateMap.put("Reporte", new ReporteState());
 
         // Configurar formulario inicial vacío
-        gbc.gridy = 1;
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
         currentState = null;
     }
 
@@ -77,11 +109,21 @@ public class AdminWindow extends JFrame {
     private void changeState(String entity) {
         FormState newState = stateMap.get(entity);
         if (newState != null) {
+            getContentPane().removeAll(); // Limpiar el contenido actual
+
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(10, 10, 10, 10); // Separación de 10px alrededor de los componentes
+
+            // Configurar el nuevo formulario
             currentState = newState;
-            currentState.setupForm(this, new GridBagConstraints());
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            currentState.setupForm(this, gbc);
         } else {
-            clearForm();
+            clearForm(); // Limpiar el formulario si no hay estado asignado
         }
+        revalidate();
+        repaint();
     }
 
     // Método para limpiar el formulario
@@ -89,11 +131,6 @@ public class AdminWindow extends JFrame {
         getContentPane().removeAll();
         revalidate();
         repaint();
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0; gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        add(entitySelector, gbc);
     }
 
     // Método para mostrar un mensaje de éxito o error
